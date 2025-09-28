@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: bsk-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: bsk_db
+      POSTGRES_USER: bsk_user
+      POSTGRES_PASSWORD: bsk_admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
