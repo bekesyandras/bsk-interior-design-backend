@@ -1,6 +1,7 @@
 package hu.progmasters.bskinteriordesignbackend.about.model.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Entity
@@ -18,5 +19,6 @@ public class AboutEntity {
     private Long id;
 
     @Column(name = "content", columnDefinition = "TEXT")
+    @Size(max = 5000)
     private String content;
 }
