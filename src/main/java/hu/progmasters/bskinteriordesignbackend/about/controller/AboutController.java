@@ -33,5 +33,4 @@ public class AboutController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-
 }

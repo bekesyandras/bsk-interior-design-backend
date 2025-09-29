@@ -17,7 +17,6 @@ public class AboutEntity {
     @Column(name = "id")
     private Long id;
 
-    @Lob
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 }

@@ -11,6 +11,9 @@ import lombok.*;
 @Schema(name = "AboutResponseDto", description = "DTO representing the About section content")
 public class AboutResponseDto {
 
+    @Schema(description = "Unique identifier of the About section")
+    private Long id;
+
     @Schema(description = "Introductory text displayed on the frontend")
     private String content;
 

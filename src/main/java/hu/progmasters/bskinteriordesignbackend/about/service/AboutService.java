@@ -17,6 +17,7 @@ public class AboutService {
     public AboutResponseDto getContent() {
         return aboutRepository.findTopByOrderByIdAsc()
                 .map(entity -> AboutResponseDto.anAboutResponse()
+                        .withId(entity.getId())
                         .withContent(entity.getContent())
                         .build())
                 .orElse(AboutResponseDto.anAboutResponse()
