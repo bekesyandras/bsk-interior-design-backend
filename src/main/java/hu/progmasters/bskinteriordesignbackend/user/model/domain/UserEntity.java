@@ -5,13 +5,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "application_user")
 @Getter
 @Setter
 @Builder(builderMethodName = "aUser", toBuilder = true, setterPrefix = "with")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
