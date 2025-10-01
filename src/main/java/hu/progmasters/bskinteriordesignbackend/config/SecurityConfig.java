@@ -39,10 +39,6 @@ public class SecurityConfig {
         return new HttpBasicConfigurer<>();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService(CustomUserDetailsService customUserDetailsService) {
-        return customUserDetailsService;
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
