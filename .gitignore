@@ -1,3 +1,6 @@
+# Cloudinary environment configuration (do not commit sensitive keys)
+.env
+
 # Compiled class file
 *.class
 
