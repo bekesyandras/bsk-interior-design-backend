@@ -1,5 +1,6 @@
 package hu.progmasters.bskinteriordesignbackend.gallery.model.dto;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,11 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Schema(name = "GalleryImageUploadCommand", description = "Payload for uploading a gallery image")
 public class GalleryImageUploadDto {
 
-    @Schema(description = "Image file to upload", required = true)
+    @Schema(type = "string", format = "binary", description = "Image file to upload", required = true)
     private MultipartFile file;
 
-    @Schema(description = "Optional description of the image", example = "Minimalist living room with light wood furniture and natural lighting")
+    @Schema(description = "Optional description of the image", example = "Minimalist living room with light wood furniture")
     private String description;
+
 
 
 }

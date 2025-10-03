@@ -11,9 +11,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -28,24 +30,18 @@ public class GalleryImageController {
 
     private final GalleryImageService galleryImageService;
 
-    @PostMapping
+    @PostMapping(value = "/api/gallery/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Upload a new image to the gallery")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Image uploaded successfully"),
-            @ApiResponse(responseCode = "502", description = "Image upload failed due to Cloudinary error")
-    })
-    public ResponseEntity<GalleryImageResponseDto> uploadGalleryImage(@ModelAttribute GalleryImageUploadDto command) {
-        log.info(CYAN + "HTTP POST upload gallery image" + ANSI_RESET);
+    public ResponseEntity<GalleryImageResponseDto> uploadGalleryImage(
+            @ModelAttribute GalleryImageUploadDto command) {
+
         GalleryImageResponseDto response = galleryImageService.uploadImage(command);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/paged")
     @Operation(summary = "Retrieve paginated gallery images")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Paginated list of gallery images")
-    })
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Paginated list of gallery images")})
     public ResponseEntity<Page<GalleryImageResponseDto>> getPagedGalleryImages(Pageable pageable) {
         log.info(CYAN + "HTTP GET paginated gallery images" + ANSI_RESET);
         Page<GalleryImageResponseDto> page = galleryImageService.getPagedImages(pageable);
@@ -55,10 +51,7 @@ public class GalleryImageController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Delete a gallery image by ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Image deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Image not found")
-    })
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Image deleted successfully"), @ApiResponse(responseCode = "404", description = "Image not found")})
     public ResponseEntity<Void> deleteGalleryImage(@PathVariable Long id) {
         log.info(CYAN + "HTTP DELETE gallery image with ID: " + id + ANSI_RESET);
         galleryImageService.deleteImage(id);

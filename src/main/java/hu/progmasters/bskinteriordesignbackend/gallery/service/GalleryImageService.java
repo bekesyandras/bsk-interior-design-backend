@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -23,13 +24,18 @@ public class GalleryImageService {
 
 
     public GalleryImageResponseDto uploadImage(GalleryImageUploadDto command) {
-        String imageUrl = cloudinaryService.uploadImage(command.getFile());
+        MultipartFile file = command.getFile();
+        String description = command.getDescription();
+
+        String imageUrl = cloudinaryService.uploadImage(file);
+
         GalleryImageEntity saved = galleryImageRepository.save(
                 GalleryImageEntity.aGalleryImage()
                         .withImageUrl(imageUrl)
-                        .withDescription(command.getDescription())
+                        .withDescription(description)
                         .build()
         );
+
         return GalleryImageResponseDto.aResponseDto()
                 .withId(saved.getId())
                 .withImageUrl(saved.getImageUrl())
