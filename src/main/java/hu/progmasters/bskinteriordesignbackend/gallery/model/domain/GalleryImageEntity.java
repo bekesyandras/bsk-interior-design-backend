@@ -19,6 +19,9 @@ public class GalleryImageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "display_order", nullable = false)
+    private Integer displayOrder;
+
     @Column(nullable = false)
     private String imageUrl;
 

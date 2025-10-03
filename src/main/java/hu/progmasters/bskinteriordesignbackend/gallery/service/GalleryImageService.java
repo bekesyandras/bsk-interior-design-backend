@@ -9,7 +9,9 @@ import hu.progmasters.bskinteriordesignbackend.gallery.repository.GalleryImageRe
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,8 +31,14 @@ public class GalleryImageService {
 
         String imageUrl = cloudinaryService.uploadImage(file);
 
+        int nextOrder = galleryImageRepository.findTopByOrderByDisplayOrderDesc()
+                .map(entity -> entity.getDisplayOrder() + 1)
+                .orElse(1);
+
+
         GalleryImageEntity saved = galleryImageRepository.save(
                 GalleryImageEntity.aGalleryImage()
+                        .withDisplayOrder(nextOrder)
                         .withImageUrl(imageUrl)
                         .withDescription(description)
                         .build()
@@ -44,7 +52,10 @@ public class GalleryImageService {
     }
 
     public Page<GalleryImageResponseDto> getPagedImages(Pageable pageable) {
-        return galleryImageRepository.findAll(pageable)
+        Sort sort = Sort.by("displayOrder").ascending();
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+
+        return galleryImageRepository.findAll(sortedPageable)
                 .map(image -> GalleryImageResponseDto.aResponseDto()
                         .withId(image.getId())
                         .withImageUrl(image.getImageUrl())
