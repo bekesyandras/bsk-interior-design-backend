@@ -1,6 +1,7 @@
 package hu.progmasters.bskinteriordesignbackend.gallery.service;
 
 import hu.progmasters.bskinteriordesignbackend.cloudinary.CloudinaryService;
+import hu.progmasters.bskinteriordesignbackend.cloudinary.model.dto.CloudinaryUploadResultDto;
 import hu.progmasters.bskinteriordesignbackend.exception.GalleryImageNotFoundException;
 import hu.progmasters.bskinteriordesignbackend.gallery.model.domain.GalleryImageEntity;
 import hu.progmasters.bskinteriordesignbackend.gallery.model.dto.GalleryImageResponseDto;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 @Service
@@ -29,20 +32,22 @@ public class GalleryImageService {
         MultipartFile file = command.getFile();
         String description = command.getDescription();
 
-        String imageUrl = cloudinaryService.uploadImage(file);
-
         int nextOrder = galleryImageRepository.findTopByOrderByDisplayOrderDesc()
                 .map(entity -> entity.getDisplayOrder() + 1)
                 .orElse(1);
 
+        CloudinaryUploadResultDto result = cloudinaryService.uploadImage(file);
+
 
         GalleryImageEntity saved = galleryImageRepository.save(
                 GalleryImageEntity.aGalleryImage()
-                        .withDisplayOrder(nextOrder)
-                        .withImageUrl(imageUrl)
+                        .withImageUrl(result.getImageUrl())
+                        .withCloudinaryPublicId(result.getPublicId())
                         .withDescription(description)
+                        .withDisplayOrder(nextOrder)
                         .build()
         );
+
 
         return GalleryImageResponseDto.aResponseDto()
                 .withId(saved.getId())
@@ -66,7 +71,16 @@ public class GalleryImageService {
     public void deleteImage(Long id) {
         GalleryImageEntity image = galleryImageRepository.findById(id)
                 .orElseThrow(() -> new GalleryImageNotFoundException(id));
+
+        cloudinaryService.deleteImage(image.getCloudinaryPublicId());
+
         galleryImageRepository.delete(image);
+
+        List<GalleryImageEntity> images = galleryImageRepository.findAll(Sort.by("displayOrder"));
+        for (int i = 0; i < images.size(); i++) {
+            images.get(i).setDisplayOrder(i + 1);
+        }
+        galleryImageRepository.saveAll(images);
     }
 }
 

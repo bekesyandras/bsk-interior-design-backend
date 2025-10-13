@@ -22,6 +22,9 @@ public class GalleryImageEntity {
     @Column(name = "display_order", nullable = false)
     private Integer displayOrder;
 
+    @Column(name = "cloudinary_public_id", nullable = false)
+    private String cloudinaryPublicId;
+
     @Column(nullable = false)
     private String imageUrl;
 
