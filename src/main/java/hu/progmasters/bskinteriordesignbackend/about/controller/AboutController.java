@@ -30,7 +30,7 @@ public class AboutController {
     @Operation(summary = "Retrieves the About section displayed on the frontend")
     public ResponseEntity<AboutResponseDto> getAbout() {
         log.info(CYAN + "HTTP GET About section" + ANSI_RESET);
-        AboutResponseDto responseDto = aboutService.getContent();
+        AboutResponseDto responseDto = aboutService.getContentSection();
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
@@ -40,7 +40,7 @@ public class AboutController {
     @Operation(summary = "Updates the About section")
     public ResponseEntity<Void> updateAbout(@Valid @RequestBody AboutUpdateDto command) {
         log.info(CYAN + "HTTP PUT update About section" + ANSI_RESET);
-        aboutService.updateContent(command);
+        aboutService.updateContentSection(command);
         return ResponseEntity.ok().build();
     }
 }
