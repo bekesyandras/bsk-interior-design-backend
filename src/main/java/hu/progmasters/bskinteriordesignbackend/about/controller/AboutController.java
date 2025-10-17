@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -35,10 +36,10 @@ public class AboutController {
     }
 
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Updates the About section")
-    public ResponseEntity<Void> updateAbout(@Valid @RequestBody AboutUpdateDto command) {
+    public ResponseEntity<Void> updateAbout(@ModelAttribute AboutUpdateDto command) {
         log.info(CYAN + "HTTP PUT update About section" + ANSI_RESET);
         aboutService.updateContentSection(command);
         return ResponseEntity.ok().build();
