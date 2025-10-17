@@ -1,7 +1,7 @@
 package hu.progmasters.bskinteriordesignbackend.about.service;
 
 import hu.progmasters.bskinteriordesignbackend.about.model.domain.AboutEntity;
-import hu.progmasters.bskinteriordesignbackend.about.model.dto.AboutContentUpdateDto;
+import hu.progmasters.bskinteriordesignbackend.about.model.dto.AboutUpdateDto;
 import hu.progmasters.bskinteriordesignbackend.about.model.dto.AboutResponseDto;
 import hu.progmasters.bskinteriordesignbackend.about.repository.AboutRepository;
 import hu.progmasters.bskinteriordesignbackend.exception.AboutEntityNotFoundException;
@@ -27,7 +27,7 @@ public class AboutService {
                         .build());
     }
 
-    public void updateContent(AboutContentUpdateDto command) {
+    public void updateContent(AboutUpdateDto command) {
         AboutEntity about = aboutRepository.findById(command.getId())
                 .orElseThrow(() -> new AboutEntityNotFoundException(command.getId()));
         about.setContent(command.getContent());

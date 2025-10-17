@@ -21,4 +21,10 @@ public class AboutEntity {
     @Column(name = "content", columnDefinition = "TEXT")
     @Size(max = 5000)
     private String content;
+
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
+
+    @Column(name = "profile_image_public_id")
+    private String profileImagePublicId;
 }

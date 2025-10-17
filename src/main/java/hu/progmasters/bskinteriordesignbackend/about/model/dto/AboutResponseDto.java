@@ -17,5 +17,6 @@ public class AboutResponseDto {
     @Schema(description = "Introductory text displayed on the frontend")
     private String content;
 
-
+    @Schema(description = "URL of the uploaded profile image")
+    private String profileImageUrl;
 }
