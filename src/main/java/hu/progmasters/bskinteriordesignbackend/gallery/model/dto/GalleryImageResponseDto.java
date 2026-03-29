@@ -19,5 +19,6 @@ public class GalleryImageResponseDto {
     @Schema(description = "Optional description of the image", example = "Living room interior with natural light")
     private String description;
 
-
+    @Schema(description = "Category of the image", example = "japan")
+    private String category;
 }

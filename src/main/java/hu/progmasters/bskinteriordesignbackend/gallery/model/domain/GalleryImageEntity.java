@@ -39,4 +39,7 @@ public class GalleryImageEntity {
         this.uploadedAt = LocalDateTime.now();
     }
 
+    @Column(nullable = false)
+    private String category;
+
 }

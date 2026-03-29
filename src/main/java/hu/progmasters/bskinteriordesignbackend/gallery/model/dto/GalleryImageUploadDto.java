@@ -1,6 +1,5 @@
 package hu.progmasters.bskinteriordesignbackend.gallery.model.dto;
 
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,8 +18,7 @@ public class GalleryImageUploadDto {
     @Schema(description = "Optional description of the image", example = "Minimalist living room with light wood furniture")
     private String description;
 
-
-
+    @Schema(description = "Category of the image", example = "japan", required = true)
+    private String category;
 }
-
 

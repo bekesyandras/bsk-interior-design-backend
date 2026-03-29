@@ -45,6 +45,7 @@ public class GalleryImageService {
                         .withCloudinaryPublicId(result.getPublicId())
                         .withDescription(description)
                         .withDisplayOrder(nextOrder)
+                        .withCategory(command.getCategory())
                         .build()
         );
 
@@ -53,6 +54,7 @@ public class GalleryImageService {
                 .withId(saved.getId())
                 .withImageUrl(saved.getImageUrl())
                 .withDescription(saved.getDescription())
+                .withCategory(saved.getCategory())
                 .build();
     }
 
@@ -65,6 +67,7 @@ public class GalleryImageService {
                         .withId(image.getId())
                         .withImageUrl(image.getImageUrl())
                         .withDescription(image.getDescription())
+                        .withCategory(image.getCategory())
                         .build());
     }
 
